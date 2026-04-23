@@ -1,0 +1,65 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.VerifyReferenceTrimCompatibility = 
+build_property.VerifyReferenceAotCompatibility = 
+build_property.TargetFramework = net10.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = TicketPrimeFront
+build_property.RootNamespace = TicketPrimeFront
+build_property.ProjectDir = C:\Users\joaol\Downloads\TicketPrime-v3\TicketPrime-main\src\TicketPrimeFront\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = false
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\joaol\Downloads\TicketPrime-v3\TicketPrime-main\src\TicketPrimeFront
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/joaol/Downloads/TicketPrime-v3/TicketPrime-main/src/TicketPrimeFront/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joaol/Downloads/TicketPrime-v3/TicketPrime-main/src/TicketPrimeFront/Pages/Cupons.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3Vwb25zLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joaol/Downloads/TicketPrime-v3/TicketPrime-main/src/TicketPrimeFront/Pages/Eventos.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXZlbnRvcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joaol/Downloads/TicketPrime-v3/TicketPrime-main/src/TicketPrimeFront/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joaol/Downloads/TicketPrime-v3/TicketPrime-main/src/TicketPrimeFront/Pages/Reservas.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVzZXJ2YXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joaol/Downloads/TicketPrime-v3/TicketPrime-main/src/TicketPrimeFront/Pages/Usuarios.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXN1YXJpb3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joaol/Downloads/TicketPrime-v3/TicketPrime-main/src/TicketPrimeFront/Shared/Alerta.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEFsZXJ0YS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joaol/Downloads/TicketPrime-v3/TicketPrime-main/src/TicketPrimeFront/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joaol/Downloads/TicketPrime-v3/TicketPrime-main/src/TicketPrimeFront/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 

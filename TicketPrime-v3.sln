@@ -1,0 +1,39 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TicketPrime-main", "TicketPrime-main", "{2BEE3A87-6EAA-0C67-2E37-1470520B8221}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5DB67F23-3C9A-EE32-0033-55D12606C07B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketPrimeApi", "TicketPrime-main\src\TicketPrimeApi\TicketPrimeApi.csproj", "{17BDF642-1CA0-D666-A657-88D38AA32D0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketPrimeFront", "TicketPrime-main\src\TicketPrimeFront\TicketPrimeFront.csproj", "{F254C33D-6160-8422-A9F5-5E7F1F378356}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{17BDF642-1CA0-D666-A657-88D38AA32D0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17BDF642-1CA0-D666-A657-88D38AA32D0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17BDF642-1CA0-D666-A657-88D38AA32D0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17BDF642-1CA0-D666-A657-88D38AA32D0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F254C33D-6160-8422-A9F5-5E7F1F378356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F254C33D-6160-8422-A9F5-5E7F1F378356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F254C33D-6160-8422-A9F5-5E7F1F378356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F254C33D-6160-8422-A9F5-5E7F1F378356}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5DB67F23-3C9A-EE32-0033-55D12606C07B} = {2BEE3A87-6EAA-0C67-2E37-1470520B8221}
+		{17BDF642-1CA0-D666-A657-88D38AA32D0F} = {5DB67F23-3C9A-EE32-0033-55D12606C07B}
+		{F254C33D-6160-8422-A9F5-5E7F1F378356} = {5DB67F23-3C9A-EE32-0033-55D12606C07B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {078D31B1-9022-437C-AFD2-8EE7BC73DEE3}
+	EndGlobalSection
+EndGlobal

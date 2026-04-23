@@ -1,0 +1,33 @@
+@inherits LayoutComponentBase
+
+<div class="tp-layout">
+    <nav class="tp-sidebar">
+        <div class="tp-logo">
+            <span class="tp-logo-icon">🎟</span>
+            <span class="tp-logo-text">TicketPrime</span>
+        </div>
+        <ul class="tp-nav">
+            <li><NavLink href="" Match="NavLinkMatch.All" class="tp-nav-link">
+                <span>🏠</span> Início
+            </NavLink></li>
+            <li><NavLink href="eventos" class="tp-nav-link">
+                <span>📅</span> Eventos
+            </NavLink></li>
+            <li><NavLink href="usuarios" class="tp-nav-link">
+                <span>👤</span> Usuários
+            </NavLink></li>
+            <li><NavLink href="cupons" class="tp-nav-link">
+                <span>🏷</span> Cupons
+            </NavLink></li>
+            <li><NavLink href="reservas" class="tp-nav-link">
+                <span>🎫</span> Reservas
+            </NavLink></li>
+        </ul>
+    </nav>
+
+    <main class="tp-main">
+        <div class="tp-content">
+            @Body
+        </div>
+    </main>
+</div>

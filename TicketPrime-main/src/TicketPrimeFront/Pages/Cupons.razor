@@ -1,0 +1,114 @@
+@page "/cupons"
+@inject HttpClient Http
+<PageTitle>Cupons — TicketPrime</PageTitle>
+
+<h1 class="tp-page-title">🏷 Cupons</h1>
+
+<div class="tp-two-col">
+
+    <div class="tp-card">
+        <h2 class="tp-card-title">Cadastrar Cupom</h2>
+        <div class="tp-form">
+            <label class="tp-label">Código do cupom</label>
+            <input class="tp-input" @bind="novoCupom.Codigo" placeholder="Ex: VERAO20" />
+
+            <label class="tp-label">Porcentagem de desconto (%)</label>
+            <input class="tp-input" type="number" step="0.01" min="1" max="100"
+                   @bind="novoCupom.PorcentagemDesconto" placeholder="Ex: 20" />
+
+            <label class="tp-label">Valor mínimo do ingresso (R$)</label>
+            <input class="tp-input" type="number" step="0.01" min="0"
+                   @bind="novoCupom.ValorMinimoRegra" placeholder="Ex: 100.00" />
+
+            @if (novoCupom.PorcentagemDesconto > 0 && novoCupom.ValorMinimoRegra > 0)
+            {
+                <div class="tp-preview">
+                    💡 Para ingressos a partir de <strong>R$ @novoCupom.ValorMinimoRegra.ToString("F2")</strong>,
+                    o desconto de <strong>@novoCupom.PorcentagemDesconto%</strong> será aplicado.
+                </div>
+            }
+
+            <button class="tp-btn tp-btn-primary" @onclick="CadastrarCupom" disabled="@carregando">
+                @(carregando ? "Salvando..." : "Cadastrar Cupom")
+            </button>
+
+            <Alerta Mensagem="@mensagem" Tipo="@tipoMensagem" />
+        </div>
+    </div>
+
+    <div class="tp-card">
+        <h2 class="tp-card-title">Consultar Cupom</h2>
+        <div class="tp-form">
+            <label class="tp-label">Código do cupom</label>
+            <div class="tp-input-row">
+                <input class="tp-input" @bind="codigoBusca" placeholder="Ex: VERAO20" />
+                <button class="tp-btn tp-btn-secondary" @onclick="ConsultarCupom">Buscar</button>
+            </div>
+
+            @if (cupomEncontrado is not null)
+            {
+                <div class="tp-result">
+                    <div class="tp-result-row"><span>Código</span><strong>@cupomEncontrado.Codigo</strong></div>
+                    <div class="tp-result-row"><span>Desconto</span><strong>@cupomEncontrado.PorcentagemDesconto.ToString("F2")%</strong></div>
+                    <div class="tp-result-row"><span>Valor mínimo</span><strong>R$ @cupomEncontrado.ValorMinimoRegra.ToString("F2")</strong></div>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(mensagemBusca))
+            {
+                <Alerta Mensagem="@mensagemBusca" Tipo="@tipoBusca" />
+            }
+        </div>
+    </div>
+
+</div>
+
+@code {
+    private Cupom novoCupom = new();
+    private string codigoBusca = string.Empty;
+    private Cupom? cupomEncontrado;
+    private string mensagem = string.Empty;
+    private string tipoMensagem = "erro";
+    private string mensagemBusca = string.Empty;
+    private string tipoBusca = "erro";
+    private bool carregando = false;
+
+    private async Task CadastrarCupom()
+    {
+        mensagem = string.Empty;
+        carregando = true;
+
+        var resp = await Http.PostAsJsonAsync("/api/cupons", novoCupom);
+        if (resp.IsSuccessStatusCode)
+        {
+            mensagem = $"Cupom '{novoCupom.Codigo}' cadastrado com sucesso!";
+            tipoMensagem = "sucesso";
+            novoCupom = new();
+        }
+        else
+        {
+            mensagem = await resp.Content.ReadAsStringAsync();
+            tipoMensagem = "erro";
+        }
+
+        carregando = false;
+    }
+
+    private async Task ConsultarCupom()
+    {
+        mensagemBusca = string.Empty;
+        cupomEncontrado = null;
+
+        if (string.IsNullOrWhiteSpace(codigoBusca)) return;
+
+        var resp = await Http.GetAsync($"/api/cupons/{codigoBusca.Trim().ToUpper()}");
+        if (resp.IsSuccessStatusCode)
+        {
+            cupomEncontrado = await resp.Content.ReadFromJsonAsync<Cupom>();
+        }
+        else
+        {
+            mensagemBusca = "Cupom não encontrado.";
+            tipoBusca = "erro";
+        }
+    }
+}

@@ -1,0 +1,82 @@
+@page "/usuarios"
+@inject HttpClient Http
+<PageTitle>Usuários — TicketPrime</PageTitle>
+
+<h1 class="tp-page-title">👤 Usuários</h1>
+
+<div class="tp-two-col">
+
+    <div class="tp-card">
+        <h2 class="tp-card-title">Cadastrar Usuário</h2>
+        <div class="tp-form">
+            <label class="tp-label">CPF (somente números, 11 dígitos)</label>
+            <input class="tp-input"
+                   value="@novoUsuario.Cpf"
+                   @oninput="FiltrarCpf"
+                   placeholder="Ex: 12345678901"
+                   maxlength="11"
+                   inputmode="numeric" />
+
+            <label class="tp-label">Nome completo</label>
+            <input class="tp-input" @bind="novoUsuario.Nome" placeholder="Ex: João da Silva" />
+
+            <label class="tp-label">E-mail</label>
+            <input class="tp-input" type="email" @bind="novoUsuario.Email" placeholder="Ex: joao@email.com" />
+
+            <button class="tp-btn tp-btn-primary" @onclick="CadastrarUsuario" disabled="@carregando">
+                @(carregando ? "Salvando..." : "Cadastrar")
+            </button>
+
+            <Alerta Mensagem="@mensagem" Tipo="@tipoMensagem" />
+        </div>
+    </div>
+
+    <div class="tp-card">
+        <h2 class="tp-card-title">Regras de Cadastro</h2>
+        <ul class="tp-info-list">
+            <li>✅ O CPF deve ter <strong>exatamente 11 dígitos numéricos</strong> — letras e símbolos são bloqueados automaticamente.</li>
+            <li>✅ O CPF é único — cadastros com CPF duplicado retornam erro <code>400</code>.</li>
+            <li>✅ O e-mail deve ter formato válido (contém <code>@@</code> e domínio).</li>
+            <li>✅ O e-mail é único — dois usuários não podem compartilhar o mesmo e-mail.</li>
+        </ul>
+        <div class="tp-tip">
+            💡 Anote o CPF cadastrado — ele será usado para fazer reservas.
+        </div>
+    </div>
+
+</div>
+
+@code {
+    private Usuario novoUsuario = new();
+    private string mensagem = string.Empty;
+    private string tipoMensagem = "erro";
+    private bool carregando = false;
+
+    // Bloqueia qualquer caractere não numérico no campo CPF
+    private void FiltrarCpf(ChangeEventArgs e)
+    {
+        var valor = e.Value?.ToString() ?? string.Empty;
+        novoUsuario.Cpf = new string(valor.Where(char.IsDigit).ToArray());
+    }
+
+    private async Task CadastrarUsuario()
+    {
+        mensagem = string.Empty;
+        carregando = true;
+
+        var resp = await Http.PostAsJsonAsync("/api/usuarios", novoUsuario);
+        if (resp.IsSuccessStatusCode)
+        {
+            mensagem = $"Usuário {novoUsuario.Nome} cadastrado com sucesso!";
+            tipoMensagem = "sucesso";
+            novoUsuario = new();
+        }
+        else
+        {
+            mensagem = await resp.Content.ReadAsStringAsync();
+            tipoMensagem = "erro";
+        }
+
+        carregando = false;
+    }
+}

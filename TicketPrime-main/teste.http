@@ -1,0 +1,12 @@
+### Testar Listagem de Eventos (Vai fazer um SELECT no banco)
+GET http://localhost:5246/api/eventos
+
+### Cadastrar um Usuário (Vai fazer um INSERT com Dapper)
+POST http://localhost:5246/api/usuarios
+Content-Type: application/json
+
+{
+    "Cpf": "12345678901",
+    "Nome": "João TicketPrime",
+    "Email": "joao@email.com"
+}

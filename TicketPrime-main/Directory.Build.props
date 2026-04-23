@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <!--
+      Force NuGet restore to use a project-local configuration and cache paths.
+      This avoids depending on user-level AppData locations that may be blocked
+      in sandboxed or CI environments.
+    -->
+    <RestoreConfigFile>$(MSBuildThisFileDirectory)NuGet.Config</RestoreConfigFile>
+    <RestorePackagesPath>$(MSBuildThisFileDirectory).nuget\packages</RestorePackagesPath>
+  </PropertyGroup>
+</Project>

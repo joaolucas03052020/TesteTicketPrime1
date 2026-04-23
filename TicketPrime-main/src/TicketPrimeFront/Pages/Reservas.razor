@@ -1,0 +1,141 @@
+@page "/reservas"
+@inject HttpClient Http
+<PageTitle>Reservas — TicketPrime</PageTitle>
+
+<h1 class="tp-page-title">🎫 Reservas</h1>
+
+<div class="tp-two-col">
+
+    <div class="tp-card">
+        <h2 class="tp-card-title">Realizar Reserva</h2>
+        <div class="tp-form">
+            <label class="tp-label">CPF do usuário (11 dígitos)</label>
+            <input class="tp-input" @bind="req.UsuarioCpf" placeholder="Ex: 12345678901" maxlength="11" />
+
+            <label class="tp-label">Evento</label>
+            @if (carregandoEventos)
+            {
+                <p class="tp-loading">Carregando eventos...</p>
+            }
+            else
+            {
+                <select class="tp-input" @bind="req.EventoId">
+                    <option value="0">— Selecione um evento —</option>
+                    @foreach (var ev in eventos)
+                    {
+                        <option value="@ev.Id">
+                            @ev.Nome — R$ @ev.PrecoPadrao.ToString("F2") (@ev.DataEvento.ToString("dd/MM/yyyy"))
+                        </option>
+                    }
+                </select>
+            }
+
+            <label class="tp-label">Cupom de desconto (opcional)</label>
+            <input class="tp-input" @bind="req.CupomUtilizado" placeholder="Ex: VERAO20 — deixe vazio se não tiver" />
+
+            @if (req.EventoId > 0)
+            {
+                var ev = eventos.FirstOrDefault(e => e.Id == req.EventoId);
+                if (ev != null)
+                {
+                    <div class="tp-preview">
+                        💰 Preço padrão: <strong>R$ @ev.PrecoPadrao.ToString("F2")</strong>
+                        @if (!string.IsNullOrWhiteSpace(req.CupomUtilizado))
+                        {
+                            <span> · Cupom será validado no servidor</span>
+                        }
+                    </div>
+                }
+            }
+
+            <button class="tp-btn tp-btn-primary" @onclick="RealizarReserva" disabled="@carregando">
+                @(carregando ? "Processando..." : "Confirmar Reserva")
+            </button>
+
+            <Alerta Mensagem="@mensagem" Tipo="@tipoMensagem" />
+
+            @if (reservaConfirmada is not null)
+            {
+                <div class="tp-result tp-result-success">
+                    <div class="tp-result-row"><span>Status</span><strong>✅ Confirmada</strong></div>
+                    <div class="tp-result-row"><span>Valor pago</span><strong>R$ @reservaConfirmada.ValorPago.ToString("F2")</strong></div>
+                    <div class="tp-result-row"><span>Mensagem</span><strong>@reservaConfirmada.Mensagem</strong></div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="tp-card">
+        <h2 class="tp-card-title">Regras de Negócio</h2>
+        <ul class="tp-info-list">
+            <li>🚫 Não é possível reservar para um evento lotado.</li>
+            <li>🚫 O mesmo CPF não pode ter mais de 1 reserva no mesmo evento.</li>
+            <li>✅ O cupom só é aplicado se o preço do evento for maior ou igual ao valor mínimo do cupom.</li>
+            <li>✅ O valor final nunca pode ser negativo.</li>
+            <li>✅ Reservas sem cupom usam o preço cheio do evento.</li>
+        </ul>
+    </div>
+
+</div>
+
+@code {
+    private ReservaReq req = new();
+    private List<Evento> eventos = new();
+    private bool carregandoEventos = false;
+    private bool carregando = false;
+    private string mensagem = string.Empty;
+    private string tipoMensagem = "erro";
+    private ReservaResposta? reservaConfirmada;
+
+    protected override async Task OnInitializedAsync()
+    {
+        carregandoEventos = true;
+        try { eventos = await Http.GetFromJsonAsync<List<Evento>>("/api/eventos") ?? new(); }
+        catch { eventos = new(); }
+        carregandoEventos = false;
+    }
+
+    private async Task RealizarReserva()
+    {
+        mensagem = string.Empty;
+        reservaConfirmada = null;
+        carregando = true;
+
+        if (req.EventoId == 0)
+        {
+            mensagem = "Selecione um evento.";
+            tipoMensagem = "erro";
+            carregando = false;
+            return;
+        }
+
+        // Envia cupom como null se estiver vazio
+        var payload = new
+        {
+            req.UsuarioCpf,
+            req.EventoId,
+            CupomUtilizado = string.IsNullOrWhiteSpace(req.CupomUtilizado) ? null : req.CupomUtilizado.Trim().ToUpper()
+        };
+
+        var resp = await Http.PostAsJsonAsync("/api/reservas", payload);
+        if (resp.IsSuccessStatusCode)
+        {
+            reservaConfirmada = await resp.Content.ReadFromJsonAsync<ReservaResposta>();
+            mensagem = string.Empty;
+            req = new();
+        }
+        else
+        {
+            mensagem = await resp.Content.ReadAsStringAsync();
+            tipoMensagem = "erro";
+        }
+
+        carregando = false;
+    }
+
+    private class ReservaResposta
+    {
+        public string Mensagem { get; set; } = string.Empty;
+        public decimal ValorPago { get; set; }
+    }
+}
